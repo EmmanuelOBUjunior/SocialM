@@ -4,7 +4,7 @@ const User = require("../models/User")
 
 //update a user
 router.put("/:id", async(req,res) =>{
-    if(req.body.userId === req.params.id || req.user.isAdmin){
+    if(req.body.userId === req.params.id || req.body.isAdmin){
         if(req.body.password){
             try{
                 const salt = await bcrypt.genSalt(10);
@@ -23,12 +23,25 @@ router.put("/:id", async(req,res) =>{
         return res.status(403).json("You can only update your account")
     }
 })
+
 //delete a user
+router.delete("/:id", async(req,res) =>{
+    if(req.body.userId === req.params.id || req.body.isAdmin){
+        try{
+            await User.findByIdAndDelete(req.params.id)
+            res.status(200).json("Account deleted successfully")
+        }catch(err){
+          return res.status(403).json(err)
+        }
+    }else{
+        return res.status(403).json("You can only delete your account")
+    }
+})
+
 //get a user
+router.get("/:id")
 //follow a user
 //unfollow a user
-router.get("/", (req, res) => {
-    res.send("This is user page")
-})
+
 
 module.exports = router
