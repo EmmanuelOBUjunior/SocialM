@@ -56,7 +56,7 @@ router.put("/:id/like", async(req,res) =>{
     }catch(err){
         res.status(400).json(err)
     }
-})
+});
 //get a post
 //get timeline
 module.exports = router
